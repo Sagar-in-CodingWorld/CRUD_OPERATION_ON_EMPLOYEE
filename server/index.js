@@ -24,16 +24,17 @@ mongoose.connect(connectionString)
 
 //Routes
 app.post('/addEmployee', async (req,res) => {
-    const data = req.body;
-    const newEmployee = new employeeModel(data);
-    await newEmployee.save();
-    res.send(newEmployee)
-    .then((res) => {
-        console.log('response : ', res);
-    })
-    .catch((err) => {
-        console.log('error : ', err);
-    })      
+    try{
+        const data = req.body;
+        const newEmployee = new employeeModel(data);
+        await newEmployee.save();
+        res.send(newEmployee);
+        console.log('response : ', newEmployee);
+    }
+    catch(err){
+        console.log('error is ', err);
+        res.status(500).send(err);
+    }   
 })
 
 
