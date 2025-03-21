@@ -4,20 +4,14 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const port = 3001;
+const {employeeModel} = require('./models/employeeModel')
 
 const connectionString = 'mongodb://localhost:27017/employee'
 
 app.use(cors());
 app.use(express.json());
 
-//Defining Schema
-const employeeSchema = new mongoose.Schema({
-    name : String,
-    email : String,
-    age : Number
-})
-//Defining Model 
-const employeeModel = mongoose.model('employees', employeeSchema)
+
 
 // Mongodb connection
 mongoose.connect(connectionString)
@@ -35,6 +29,14 @@ app.post('/addEmployee', async (req,res) => {
         console.log('error is ', err);
         res.status(500).send(err);
     }   
+})
+app.get('/getAllUsers', async (req,res) => {
+    try{
+        const allEmployees = await employeeModel.find();
+        res.send(allEmployees)
+    }catch(err){
+        console.log('error is ', err)
+    }
 })
 
 

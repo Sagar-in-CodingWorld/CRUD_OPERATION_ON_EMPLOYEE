@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateUser = () => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [age, setAge] = useState();
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('form data : ', name, email, age);
     axios.post('http://localhost:3001/addEmployee', {name,email,age})
     .then((res) => {
       console.log('response : ', res);
+    //Navigate to User list
+      navigate('/');
     })
     .catch((err) => {
       console.log('error : ', err);
